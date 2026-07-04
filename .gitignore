@@ -1,0 +1,5 @@
+Data/
+*.csv
+*.tsv
+*.gz
+Data/*.gz
