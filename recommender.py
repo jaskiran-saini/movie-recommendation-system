@@ -9,4 +9,8 @@ print(basics.head())"""
 #FILTERING DATA
 movies=basics[basics['titleType']=='movie'].copy()
 print(f"Movies only: {movies.shape}")
+#MERGE RATINGS AND CREW INTO MOVIES
+movies=movies.merge(ratings,on='tconst',how='left')
+movies=movies.merge(crew,on='tconst',how='left')
+print(f"After merge={movies.shape}")
 
