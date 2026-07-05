@@ -33,3 +33,5 @@ def getDirectorNames(director_str):
     ids=director_str.split(',')
     return ' '.join([nameLookup.get(i,'')for i in ids])
 movies['directorNames']=movies['directors'].apply(getDirectorNames)
+#---clean genres---replace commas with spaces so TF-IDF treats each genre as a word---
+movies['genresClean']=movies['genres'].str.replace(',',' ')
