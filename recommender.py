@@ -13,4 +13,9 @@ print(f"Movies only: {movies.shape}")
 movies=movies.merge(ratings,on='tconst',how='left')
 movies=movies.merge(crew,on='tconst',how='left')
 print(f"After merge={movies.shape}")
-
+#DATA CLEANING
+movies=movies[movies['averageRating'].notna()]      #drop unrated movies
+movies=movies[movies['genres'].notna()]     #drop missing genres
+movies=movies[movies['numVotes']>=500]      #keep movies with enough votes
+print(f"After cleaning= {movies.shape}")
+print(movies[['primaryTitle','genres','averageRating','numVotes','directors']].head())
