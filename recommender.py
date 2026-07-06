@@ -35,3 +35,5 @@ def getDirectorNames(director_str):
 movies['directorNames']=movies['directors'].apply(getDirectorNames)
 #---clean genres---replace commas with spaces so TF-IDF treats each genre as a word---
 movies['genresClean']=movies['genres'].str.replace(',',' ')
+#---normalize rating to a label---
+movies['ratingLabel']=pd.cut(movies['averageRating'],bins=[0,4,6,7,8,10],labels=['bad','average','good','great','excellent'])
