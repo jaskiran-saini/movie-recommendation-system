@@ -46,4 +46,29 @@ movies['features']=(movies['genresClean']+' '+movies['directorNames']+' '+movies
 #TF-IDF VECTORIZATION
 tfidf=TfidfVectorizer(stop_words='english')
 tfidfMatrix=tfidf.fit_transform(movies['features'])
-print(f"TF-IDF matrix shape= {tfidfMatrix.shape}")
+#print(f"TF-IDF matrix shape= {tfidfMatrix.shape}")
+
+#RECOMMENDATION FUNCTION
+def recommend(movieName,n=10):
+    #---find the movie---
+    matches=movies[movies['primaryTitle'].str.lower()==movieName.lower()]
+    if matches.empty:
+        #---try partial match if exact not found---
+        matches=movies[movies['primaryTitle'].str.lower().str.contains(movieName.lower())]
+    if matches.empty:
+        return f"Movie '{movieName}' not found!!!"
+    idx=matches.index[0]
+    pos=movies.index.get_loc(idx)       #converts label to position
+    #---compute cosine similarity of this movie against all others---
+    simScores=cosine_similarity(tfidfMatrix[pos],tfidfMatrix).flatten()
+    #---get top n similar movies (excluding itself)---
+    simScores[pos]=0        #exclude itself
+    topIndices=simScores.argsort()[::-1][:n]
+    results=movies.iloc[topIndices]
+    results=results[['primaryTitle','genres','averageRating','numVotes']].copy()
+    results['similarity']=simScores[topIndices].round(3)
+    results=results.reset_index(drop=True)
+    return results
+
+#TESTING
+print(recommend("The Dark Knight"))
