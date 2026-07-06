@@ -1,4 +1,6 @@
 import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity 
 
 #LOADING DATASET
 basics=pd.read_csv('Data/title.basics.tsv.gz',sep='\t',na_values='\\N',low_memory=False)
@@ -39,4 +41,9 @@ movies['genresClean']=movies['genres'].str.replace(',',' ')
 movies['ratingLabel']=pd.cut(movies['averageRating'],bins=[0,4,6,7,8,10],labels=['bad','average','good','great','excellent'])
 #---combine all features into one string---
 movies['features']=(movies['genresClean']+' '+movies['directorNames']+' '+movies['ratingLabel'].astype(str))
-print(movies[['primaryTitle','genresClean','directorNames','ratingLabel','features']].head())
+#print(movies[['primaryTitle','genresClean','directorNames','ratingLabel','features']].head())
+
+#TF-IDF VECTORIZATION
+tfidf=TfidfVectorizer(stop_words='english')
+tfidfMatrix=tfidf.fit_transform(movies['features'])
+print(f"TF-IDF matrix shape= {tfidfMatrix.shape}")
