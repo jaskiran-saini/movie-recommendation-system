@@ -37,3 +37,6 @@ movies['directorNames']=movies['directors'].apply(getDirectorNames)
 movies['genresClean']=movies['genres'].str.replace(',',' ')
 #---normalize rating to a label---
 movies['ratingLabel']=pd.cut(movies['averageRating'],bins=[0,4,6,7,8,10],labels=['bad','average','good','great','excellent'])
+#---combine all features into one string---
+movies['features']=(movies['genresClean']+' '+movies['directorNames']+' '+movies['ratingLabel'].astype(str))
+print(movies[['primaryTitle','genresClean','directorNames','ratingLabel','features']].head())
