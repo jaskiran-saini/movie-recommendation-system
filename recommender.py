@@ -12,19 +12,19 @@ print(basics.head())"""
 
 #FILTERING DATA
 movies=basics[basics['titleType']=='movie'].copy()
-#print(f"Movies only: {movies.shape}")
+print(f"Movies only: {movies.shape}")
 
 #MERGE RATINGS AND CREW INTO MOVIES
 movies=movies.merge(ratings,on='tconst',how='left')
 movies=movies.merge(crew,on='tconst',how='left')
-#print(f"After merge={movies.shape}")
+print(f"After merge={movies.shape}")
 
 #DATA CLEANING
 movies=movies[movies['averageRating'].notna()]      #drop unrated movies
 movies=movies[movies['genres'].notna()]     #drop missing genres
 movies=movies[movies['numVotes']>=500]      #keep movies with enough votes
-#print(f"After cleaning= {movies.shape}")
-#print(movies[['primaryTitle','genres','averageRating','numVotes','directors']].head())
+print(f"After cleaning= {movies.shape}")
+print(movies[['primaryTitle','genres','averageRating','numVotes','directors']].head())
 
 #FEATURE ENGINEERING
 #---convert director Ids to actual names---building a lookup dictionary---
@@ -41,12 +41,12 @@ movies['genresClean']=movies['genres'].str.replace(',',' ')
 movies['ratingLabel']=pd.cut(movies['averageRating'],bins=[0,4,6,7,8,10],labels=['bad','average','good','great','excellent'])
 #---combine all features into one string---
 movies['features']=(movies['genresClean']+' '+movies['directorNames']+' '+movies['ratingLabel'].astype(str))
-#print(movies[['primaryTitle','genresClean','directorNames','ratingLabel','features']].head())
+print(movies[['primaryTitle','genresClean','directorNames','ratingLabel','features']].head())
 
 #TF-IDF VECTORIZATION
 tfidf=TfidfVectorizer(stop_words='english')
 tfidfMatrix=tfidf.fit_transform(movies['features'])
-#print(f"TF-IDF matrix shape= {tfidfMatrix.shape}")
+print(f"TF-IDF matrix shape= {tfidfMatrix.shape}")
 
 #RECOMMENDATION FUNCTION
 def recommend(movieName,n=10):
