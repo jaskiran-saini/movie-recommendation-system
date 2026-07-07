@@ -6,3 +6,8 @@ from recommender import movies,tfidfMatrix
 
 #PAGE CONFIGURATION
 st.set_page_config(page_title="Movie Recommender", page_icon="🎬",layout="wide")
+
+#TITLE
+st.title("🎬 MOVIE RECOMMENDATION SYSTEM")
+st.markdown("Built using IMDB dataset . TF-IDF . Cosine Similarity")
+st.divider()
