@@ -37,4 +37,4 @@ if st.button("Recommend"):
             results=results.reset_index(drop=True)
             results.index+=1
             st.success(f"Top {n} movies similar to **{matches.iloc[0]['primaryTitle']}**: ")
-            st.dataframe(results,use_container_width=True)
+            st.dataframe(results,width='stretch')
