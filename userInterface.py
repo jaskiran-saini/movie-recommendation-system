@@ -4,7 +4,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity 
 @st.cache_resource 
 def loadData():
-    movies=pd.read_csv('data/movies_clean.csv')
+    movies=pd.read_csv('Data/movies_clean.csv')
     tfidf=TfidfVectorizer(stop_words='english')
     tfidfMatrix=tfidf.fit_transform(movies['features'])
     return movies,tfidfMatrix
