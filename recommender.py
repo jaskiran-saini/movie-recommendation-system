@@ -69,7 +69,9 @@ def recommend(movieName,n=10):
     results['similarity']=simScores[topIndices].round(3)
     results=results.reset_index(drop=True)
     return results
-
+# Run this once to save cleaned data
+movies.to_csv('data/movies_clean.csv', index=False)
+print("Saved!")
 
 #TESTING
 #print(recommend("The Dark Knight"))
